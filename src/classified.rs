@@ -5,7 +5,10 @@ use crate::{Diagnostic, DiagnosticSeverity, code, traits::DiagnosticMessageResol
 /// This is constructed through the [`Diagnostic::classify`] method.
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct ClassifiedDiagnostic<S, D = code::DefaultDiscriminant> {
+    /// The diagnostic being classified.
     pub(super) inner: Diagnostic<S, D>,
+
+    /// The severity of the diagnostic.
     pub severity: DiagnosticSeverity,
 }
 
