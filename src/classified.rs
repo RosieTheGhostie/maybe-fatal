@@ -14,19 +14,19 @@ pub struct ClassifiedDiagnostic<S, D = code::DefaultDiscriminant> {
 
 impl<S, D> ClassifiedDiagnostic<S, D> {
     /// Changes this diagnostic's severity to [`Error`](DiagnosticSeverity::Error).
-    pub const fn make_error(mut self) -> Self {
+    pub const fn make_error(&mut self) -> &mut Self {
         self.severity = DiagnosticSeverity::Error;
         self
     }
 
     /// Changes this diagnostic's severity to [`Warning`](DiagnosticSeverity::Warning).
-    pub const fn make_warning(mut self) -> Self {
+    pub const fn make_warning(&mut self) -> &mut Self {
         self.severity = DiagnosticSeverity::Warning;
         self
     }
 
     /// Changes this diagnostic's severity to [`Advice`](DiagnosticSeverity::Advice).
-    pub const fn make_advice(mut self) -> Self {
+    pub const fn make_advice(&mut self) -> &mut Self {
         self.severity = DiagnosticSeverity::Advice;
         self
     }

@@ -31,52 +31,75 @@ impl DiagnosticSeverity {
     /// Returns the least severe of the two diagnostic severities.
     ///
     /// This is analogous to [`Ord::min`].
-    pub const fn least_severe_of(a: Self, b: Self) -> Self {
-        if a.less_severe_than(b) { a } else { b }
+    pub const fn least_severe_of(&self, other: &Self) -> Self {
+        if self.less_severe_than(other) {
+            *self
+        } else {
+            *other
+        }
     }
 
     /// Returns the most severe of the two diagnostic severities.
     ///
     /// This is analogous to [`Ord::max`].
-    pub const fn most_severe_of(a: Self, b: Self) -> Self {
-        if a.less_severe_than(b) { b } else { a }
+    pub const fn most_severe_of(&self, other: &Self) -> Self {
+        if self.less_severe_than(other) {
+            *other
+        } else {
+            *self
+        }
     }
 
     /// Checks if `self` is less severe than `rhs`.
     ///
     /// This is equivalent to [`self < rhs`](PartialOrd::lt).
-    pub const fn less_severe_than(&self, rhs: Self) -> bool {
-        self.ccmp(&rhs).is_lt()
+    pub const fn less_severe_than(&self, rhs: &Self) -> bool {
+        self.ccmp(rhs).is_lt()
     }
 
     /// Checks if `self` is at most as severe as `rhs`.
     ///
     /// This is equivalent to [`self <= rhs`](PartialOrd::ge).
-    pub const fn at_most_as_severe_as(self, rhs: Self) -> bool {
-        self.ccmp(&rhs).is_le()
+    pub const fn at_most_as_severe_as(&self, rhs: &Self) -> bool {
+        self.ccmp(rhs).is_le()
     }
 
     /// Checks if `self` is more severe than `rhs`.
     ///
     /// This is equivalent to [`self > rhs`](PartialOrd::gt).
-    pub const fn more_severe_than(&self, rhs: Self) -> bool {
-        self.ccmp(&rhs).is_gt()
+    pub const fn more_severe_than(&self, rhs: &Self) -> bool {
+        self.ccmp(rhs).is_gt()
     }
 
     /// Checks if `self` is at least as severe as `rhs`.
     ///
     /// This is equivalent to [`self >= rhs`](PartialOrd::ge).
-    pub const fn at_least_as_severe_as(self, rhs: Self) -> bool {
-        self.ccmp(&rhs).is_ge()
+    pub const fn at_least_as_severe_as(&self, rhs: &Self) -> bool {
+        self.ccmp(rhs).is_ge()
     }
 }
 
 impl<'a> From<DiagnosticSeverity> for ariadne::ReportKind<'a> {
     fn from(severity: DiagnosticSeverity) -> Self {
         match severity {
-            DiagnosticSeverity::Error => Self::Error,
-            DiagnosticSeverity::Warning => Self::Warning,
             DiagnosticSeverity::Advice => Self::Advice,
+            DiagnosticSeverity::Warning => Self::Warning,
+            DiagnosticSeverity::Error => Self::Error,
+        }
+    }
+}
+
+impl<'a> TryFrom<ariadne::ReportKind<'a>> for DiagnosticSeverity {
+    type Error = &'static str;
+
+    fn try_from(
+        report_kind: ariadne::ReportKind<'a>,
+    ) -> Result<Self, <Self as TryFrom<ariadne::ReportKind<'a>>>::Error> {
+        match report_kind {
+            ariadne::ReportKind::Advice => Ok(Self::Advice),
+            ariadne::ReportKind::Warning => Ok(Self::Warning),
+            ariadne::ReportKind::Error => Ok(Self::Error),
+            _ => Err("no defined severity for custom report kind"),
         }
     }
 }

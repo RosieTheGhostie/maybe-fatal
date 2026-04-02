@@ -1,4 +1,4 @@
-use ariadne::{Color, ColorGenerator};
+pub use ariadne::{Color, ColorGenerator};
 
 /// A selection of colors to use when building [diagnostic](crate::Diagnostic)s.
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
@@ -16,6 +16,8 @@ impl ColorPalette {
 
     /// The default value of [`Self::random`].
     pub const DEFAULT_RANDOM_COLORS: [Color; Self::N_RANDOM_COLORS] = {
+        // This is by no means the most flexible approach, but `core::array::from_fn` isn't stable
+        // as a `const` function yet, so this is basically the best we can do right now.
         let mut r#gen = ColorGenerator::new();
         [r#gen.next(), r#gen.next(), r#gen.next(), r#gen.next()]
     };
@@ -34,19 +36,22 @@ impl ColorPalette {
     }
 
     /// Changes the [special](Self::special) color.
-    pub const fn with_special(mut self, color: Color) -> Self {
+    pub const fn with_special(&mut self, color: Color) -> &mut Self {
         self.special = color;
         self
     }
 
     /// Changes the [random colors](Self::random).
-    pub const fn with_random_colors(mut self, colors: [Color; Self::N_RANDOM_COLORS]) -> Self {
+    pub const fn with_random_colors(
+        &mut self,
+        colors: [Color; Self::N_RANDOM_COLORS],
+    ) -> &mut Self {
         self.random = colors;
         self
     }
 
     /// Regenerates the [random colors](Self::random) using the provided color generator.
-    pub fn with_regenerated_random_colors(self, color_gen: &mut ColorGenerator) -> Self {
+    pub fn with_regenerated_random_colors(&mut self, color_gen: &mut ColorGenerator) -> &mut Self {
         self.with_random_colors(core::array::from_fn(|_| color_gen.next()))
     }
 }

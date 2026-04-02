@@ -61,7 +61,7 @@ impl<S, D> Diagnostic<S, D> {
     /// Labels a subspan of this diagnostic.
     ///
     /// See the documentation of [`Label`] for more details.
-    pub fn with_label(mut self, label: Label<S>) -> Self {
+    pub fn label(&mut self, label: Label<S>) -> &mut Self {
         self.context_info.push(Context::Label(label));
         self
     }
@@ -69,20 +69,20 @@ impl<S, D> Diagnostic<S, D> {
     /// Sequentially labels several subspans of this diagnostic.
     ///
     /// See the documentation of [`Label`] for more details.
-    pub fn with_labels(mut self, labels: impl IntoIterator<Item = Label<S>>) -> Self {
+    pub fn labels(&mut self, labels: impl IntoIterator<Item = Label<S>>) -> &mut Self {
         self.context_info
             .extend(labels.into_iter().map(Context::Label));
         self
     }
 
     /// Adds a note to this diagnostic.
-    pub fn with_note(mut self, note: impl ToString) -> Self {
+    pub fn note(&mut self, note: impl ToString) -> &mut Self {
         self.context_info.push(Context::new_note(note));
         self
     }
 
     /// Adds a help message to this diagnostic.
-    pub fn with_help(mut self, help: impl ToString) -> Self {
+    pub fn help(&mut self, help: impl ToString) -> &mut Self {
         self.context_info.push(Context::new_help(help));
         self
     }

@@ -16,7 +16,7 @@ pub const fn at_least_warning<C, S, D>(
 ) -> bool {
     diagnostic
         .severity
-        .at_least_as_severe_as(DiagnosticSeverity::Warning)
+        .at_least_as_severe_as(&DiagnosticSeverity::Warning)
 }
 
 /// A [filter function](FilterFn) that returns `true` if and only if `diagnostic` has a severity
@@ -27,7 +27,7 @@ pub const fn at_least_error<C, S, D>(
 ) -> bool {
     diagnostic
         .severity
-        .at_least_as_severe_as(DiagnosticSeverity::Error)
+        .at_least_as_severe_as(&DiagnosticSeverity::Error)
 }
 
 /// A [sink](Sink) adapter that only accepts diagnostics satisfying some predicate.
