@@ -9,6 +9,7 @@ categories = ["development-tools", "parsing"]
 keywords = ["diagnostic", "compiler", "error"]
 documentation = "https://docs.rs/maybe-fatal/latest/"
 repository = "https://github.com/RosieTheGhostie/maybe-fatal"
+homepage = "https://github.com/RosieTheGhostie/maybe-fatal"
 readme = "README.md"
 
 [dependencies]
