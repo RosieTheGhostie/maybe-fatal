@@ -1,0 +1,17 @@
+[package]
+name = "maybe-fatal"
+description = "Potentially fatal diagnostics and diagnostic handling for compilers"
+authors = ["RosieTheGhostie <rosetheghost.dev@gmail.com>"]
+version = "0.1.0"
+edition = "2024"
+license = "LGPL-3.0+"
+categories = ["development-tools", "parsing"]
+keywords = ["diagnostic", "compiler", "error"]
+documentation = "https://docs.rs/maybe-fatal/latest/"
+repository = "https://github.com/RosieTheGhostie/maybe-fatal"
+readme = "README.md"
+
+[dependencies]
+ariadne = "0.6"
+sealed = "0.6"
+thiserror = "2.0"
