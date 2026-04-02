@@ -36,13 +36,13 @@ pub struct Filter<I, C, S, D = code::DefaultDiscriminant> {
     /// The inner sink.
     inner: I,
 
-    /// Contextual information that may be used to influence the [predicate](Self::filter).
+    /// Contextual information that may be used to influence the [predicate](Self::predicate).
     pub context: C,
 
     /// The predicate determining what gets passed along to the [inner sink](Self::inner).
-    filter: FilterFn<C, S, D>,
+    predicate: FilterFn<C, S, D>,
 
-    /// A callback that is invoked whenever a diagnostic satisfies the [predicate](Self::filter).
+    /// A callback that is invoked whenever a diagnostic satisfies the [predicate](Self::predicate).
     add_callback: AddCallback<C, S, D>,
 }
 
@@ -52,13 +52,13 @@ impl<I, C, S, D> Filter<I, C, S, D> {
         Self {
             inner: sink,
             context,
-            filter,
+            predicate: filter,
             add_callback: |_, _| {},
         }
     }
 
     /// Adds a callback that will be invoked each time a diagnostic satisfies the predicate.
-    pub const fn with_add_callback(mut self, callback: AddCallback<C, S, D>) -> Self {
+    pub const fn with_add_callback(&mut self, callback: AddCallback<C, S, D>) -> &mut Self {
         self.add_callback = callback;
         self
     }
@@ -69,7 +69,7 @@ where
     I: Sink<S, D>,
 {
     fn add(&mut self, diagnostic: ClassifiedDiagnostic<S, D>) {
-        if (self.filter)(&self.context, &diagnostic) {
+        if (self.predicate)(&self.context, &diagnostic) {
             (self.add_callback)(&mut self.context, &diagnostic);
             self.inner.add(diagnostic);
         }
