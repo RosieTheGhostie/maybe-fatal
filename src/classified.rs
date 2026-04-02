@@ -3,7 +3,7 @@ use crate::{Diagnostic, DiagnosticSeverity, code, traits::DiagnosticMessageResol
 /// A [`Diagnostic`] with an explicit [severity](DiagnosticSeverity).
 ///
 /// This is constructed through the [`Diagnostic::classify`] method.
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct ClassifiedDiagnostic<S, D = code::DefaultDiscriminant> {
     pub(super) inner: Diagnostic<S, D>,
     pub severity: DiagnosticSeverity,

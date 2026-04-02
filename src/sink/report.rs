@@ -4,6 +4,7 @@ use super::Sink;
 use crate::{ClassifiedDiagnostic, code, traits::DiagnosticMessageResolver};
 
 /// A [sink](Sink) that eagerly reports each diagnostic it recieves.
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Report<C, Resolver> {
     /// The configuration settings that will be passed along to [`ariadne`].
     config: ariadne::Config,

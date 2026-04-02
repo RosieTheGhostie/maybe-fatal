@@ -1,7 +1,7 @@
 use ariadne::{Color, ColorGenerator};
 
 /// A selection of colors to use when building [diagnostic](crate::Diagnostic)s.
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct ColorPalette {
     /// The primary color to highlight diagnostics with when there is not a more specific option.
     pub special: Color,

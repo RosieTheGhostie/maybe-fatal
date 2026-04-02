@@ -31,6 +31,7 @@ pub const fn at_least_error<C, S, D>(
 }
 
 /// A [sink](Sink) adapter that only accepts diagnostics satisfying some predicate.
+#[derive(Clone, Debug, Hash)]
 pub struct Filter<I, C, S, D = code::DefaultDiscriminant> {
     /// The inner sink.
     inner: I,

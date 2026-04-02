@@ -30,7 +30,7 @@ use traits::{DiagnosticGroup, DiagnosticMessageResolver};
 /// Diagnostics are neutral by default; that is, they don't have an assigned
 /// [severity](DiagnosticSeverity). To assign a severity, use the [`classify`](Self::classify)
 /// method.
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Diagnostic<S, D = code::DefaultDiscriminant> {
     /// The code identifying this kind of diagnostic.
     ///

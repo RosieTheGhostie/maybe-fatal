@@ -7,7 +7,7 @@ use core::{
     str::Utf8Error,
 };
 
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct DiagnosticCode<D = DefaultDiscriminant> {
     prefix: [u8; 3],
     pub discriminant: D,
