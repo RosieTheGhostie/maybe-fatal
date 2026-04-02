@@ -36,7 +36,7 @@ pub struct Filter<I, C, S, D = code::DefaultDiscriminant> {
     /// The inner sink.
     inner: I,
 
-    /// Contextual information that may be used to influence the [predicate](Self::predicate).
+    /// Contextual information that may be used to influence the predicate.
     pub context: C,
 
     /// The predicate determining what gets passed along to the [inner sink](Self::inner).
