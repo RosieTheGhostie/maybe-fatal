@@ -6,6 +6,6 @@
 
 Potentially fatal diagnostics and diagnostic handling for compilers.
 
-[crates.io]: https://crates.io/crates/maybe-fatal/
+[crates.io]: https://crates.io/crates/maybe-fatal
 [docs.rs]: https://docs.rs/maybe-fatal/latest/maybe_fatal/
 [GitHub Actions]: https://github.com/RosieTheGhostie/maybe-fatal/actions
