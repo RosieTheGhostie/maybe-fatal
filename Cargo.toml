@@ -2,7 +2,7 @@
 name = "maybe-fatal"
 description = "Potentially fatal diagnostics and diagnostic handling for compilers"
 authors = ["RosieTheGhostie <rosetheghost.dev@gmail.com>"]
-version = "0.1.0"
+version = "0.1.0-beta.1"
 edition = "2024"
 license = "LGPL-3.0+"
 categories = ["development-tools", "parsing"]
