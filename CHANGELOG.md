@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0-beta.2] - 2026-04-02
+
+### Added
+
+- Public exports of `ariadne::Color` and `ariadne::ColorGenerator`.
+- Continuous integration (CI) via GitHub Actions.
+
+### Fixed
+
+- API ergonomics.
+
+## [0.1.0-beta.1] - 2026-04-02
+
 ### Added
 
 - `Diagnostic` and `ClassifiedDiagnostic` types (i.e., the whole point of the library).
@@ -27,4 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Lenient`
 - This CHANGELOG file.
 
-[Unreleased]: https://github.com/RosieTheGhostie/maybe-fatal/compare/main%40{1day}...HEAD
+[Unreleased]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.2...HEAD
+[0.1.0-beta.2]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.1...v0.1.0-beta.2
+[0.1.0-beta.1]: https://github.com/RosieTheGhostie/maybe-fatal/releases/tag/v0.1.0-beta.1
