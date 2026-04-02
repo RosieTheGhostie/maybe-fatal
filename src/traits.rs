@@ -35,6 +35,8 @@ pub trait PartialDiagnose<S, D = code::DefaultDiscriminant> {
 ///
 /// Error `enum`s like those one would annotate with [`thiserror::Error`] should typically implement
 /// this.
+///
+/// [`thiserror::Error`]: https://docs.rs/thiserror/latest/thiserror/derive.Error.html
 pub trait DiagnosticGroup<D = code::DefaultDiscriminant> {
     fn diagnostic_code(&self) -> DiagnosticCode<D>;
 }

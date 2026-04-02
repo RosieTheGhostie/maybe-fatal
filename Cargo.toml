@@ -14,4 +14,3 @@ readme = "README.md"
 [dependencies]
 ariadne = "0.6"
 sealed = "0.6"
-thiserror = "2.0"
