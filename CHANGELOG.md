@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0-beta.3] - 2026-04-10
+
 ### Added
 
 - `derive` macros for creating diagnostic-related types.
@@ -48,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Lenient`
 - This CHANGELOG file.
 
-[Unreleased]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.2...HEAD
+[Unreleased]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.3...HEAD
+[0.1.0-beta.3]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.2...v0.1.0-beta.3
 [0.1.0-beta.2]: https://github.com/RosieTheGhostie/maybe-fatal/compare/v0.1.0-beta.1...v0.1.0-beta.2
 [0.1.0-beta.1]: https://github.com/RosieTheGhostie/maybe-fatal/releases/tag/v0.1.0-beta.1
