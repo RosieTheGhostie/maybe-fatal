@@ -10,7 +10,6 @@ categories = ["development-tools", "parsing"]
 keywords = ["diagnostic", "compiler", "error"]
 repository = "https://github.com/RosieTheGhostie/maybe-fatal"
 homepage = "https://github.com/RosieTheGhostie/maybe-fatal"
-readme = "README.md"
 
 [package]
 name = "maybe-fatal"
@@ -24,7 +23,7 @@ keywords.workspace = true
 documentation = "https://docs.rs/maybe-fatal/latest/"
 repository.workspace = true
 homepage.workspace = true
-readme.workspace = true
+readme = "README.md"
 
 [dependencies]
 ariadne = "0.6"

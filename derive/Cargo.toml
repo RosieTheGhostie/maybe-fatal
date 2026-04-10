@@ -10,7 +10,7 @@ keywords.workspace = true
 documentation = "https://docs.rs/maybe-fatal-derive/latest/"
 repository.workspace = true
 homepage.workspace = true
-readme.workspace = true
+readme = "README.md"
 
 [lib]
 proc-macro = true
