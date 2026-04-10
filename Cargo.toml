@@ -16,7 +16,7 @@ readme = "README.md"
 name = "maybe-fatal"
 description = "Potentially fatal diagnostics and diagnostic handling for compilers"
 authors.workspace = true
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 edition.workspace = true
 license.workspace = true
 categories.workspace = true
@@ -29,7 +29,7 @@ readme.workspace = true
 [dependencies]
 ariadne = "0.6"
 sealed = "0.6"
-maybe-fatal-derive = { version = "*", path = "derive", optional = true }
+maybe-fatal-derive = { version = "0.1.0-beta.3", path = "derive", optional = true }
 
 [features]
 derive = ["dep:maybe-fatal-derive"]
