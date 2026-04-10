@@ -4,3 +4,6 @@ pub use crate::{
     sink::{Sink, SinkExt},
     traits::{Diagnose, DiagnosticGroup, DiagnosticGroupExt, PartialDiagnose},
 };
+
+#[cfg(feature = "derive")]
+pub use crate::macros::*;

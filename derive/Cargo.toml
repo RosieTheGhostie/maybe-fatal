@@ -1,0 +1,21 @@
+[package]
+name = "maybe-fatal-derive"
+description = "Code generation for the maybe-fatal crate"
+authors.workspace = true
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+categories.workspace = true
+keywords.workspace = true
+documentation = "https://docs.rs/maybe-fatal-derive/latest/"
+repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["extra-traits"] }

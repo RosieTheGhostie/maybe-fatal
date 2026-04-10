@@ -1,17 +1,38 @@
-[package]
-name = "maybe-fatal"
-description = "Potentially fatal diagnostics and diagnostic handling for compilers"
+[workspace]
+resolver = "3"
+members = ["derive"]
+
+[workspace.package]
 authors = ["RosieTheGhostie <rosetheghost.dev@gmail.com>"]
-version = "0.1.0-beta.2"
 edition = "2024"
 license = "LGPL-3.0+"
 categories = ["development-tools", "parsing"]
 keywords = ["diagnostic", "compiler", "error"]
-documentation = "https://docs.rs/maybe-fatal/latest/"
 repository = "https://github.com/RosieTheGhostie/maybe-fatal"
 homepage = "https://github.com/RosieTheGhostie/maybe-fatal"
 readme = "README.md"
 
+[package]
+name = "maybe-fatal"
+description = "Potentially fatal diagnostics and diagnostic handling for compilers"
+authors.workspace = true
+version = "0.1.0-beta.2"
+edition.workspace = true
+license.workspace = true
+categories.workspace = true
+keywords.workspace = true
+documentation = "https://docs.rs/maybe-fatal/latest/"
+repository.workspace = true
+homepage.workspace = true
+readme.workspace = true
+
 [dependencies]
 ariadne = "0.6"
 sealed = "0.6"
+maybe-fatal-derive = { version = "*", path = "derive", optional = true }
+
+[features]
+derive = ["dep:maybe-fatal-derive"]
+
+default = []
+full = ["derive"]

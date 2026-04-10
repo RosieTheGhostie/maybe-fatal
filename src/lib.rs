@@ -1,5 +1,10 @@
 #![doc = include_str!("../README.md")]
 
+#[cfg(feature = "derive")]
+pub mod macros {
+    pub use maybe_fatal_derive::*;
+}
+
 pub mod code;
 pub mod prelude;
 pub mod sink;

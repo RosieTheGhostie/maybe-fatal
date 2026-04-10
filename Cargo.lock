@@ -17,7 +17,17 @@ name = "maybe-fatal"
 version = "0.1.0-beta.2"
 dependencies = [
  "ariadne",
+ "maybe-fatal-derive",
  "sealed",
+]
+
+[[package]]
+name = "maybe-fatal-derive"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

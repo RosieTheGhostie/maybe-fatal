@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `derive` macros for creating diagnostic-related types.
+  - `Diagnose`
+  - `PartialDiagnose`
+  - `DiagnosticGroup`
+  - `DiagnosticInfo`
+
 ## [0.1.0-beta.2] - 2026-04-02
 
 ### Added
