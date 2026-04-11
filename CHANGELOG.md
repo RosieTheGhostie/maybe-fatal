@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Outdated version in repository-level 'README.md'.
+- Incorrect rendering of note in repository-level 'README.md' when using non-GitHub Markdown
+  flavors.
 
 ## [0.1.0-beta.3] - 2026-04-10
 
