@@ -9,7 +9,14 @@ pub type DefaultDiscriminant = u8;
 ///
 /// # Note to Consumers
 ///
-/// This trait is **sealed**; it cannot be implemented outside the [`maybe_fatal`](crate) crate.
+/// This trait is **sealed**; it cannot be implemented outside the [`maybe_fatal`](crate) crate. It
+/// is currently implemented for the following types:
+///
+/// - [`u8`]
+/// - [`u16`]
+/// - [`u32`]
+/// - [`u64`]
+/// - [`u128`]
 #[sealed]
 pub trait Discriminant: Display {
     /// The max number of digits in the discriminant.

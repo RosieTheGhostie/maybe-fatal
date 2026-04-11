@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `set_config` method.
   - `with_config` method.
 - Ability to specify diagnostic messages, notes, and help messages through derive API.
+- Documentation for public modules.
 
 ### Changed
 

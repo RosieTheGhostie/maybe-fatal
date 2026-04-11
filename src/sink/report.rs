@@ -1,3 +1,5 @@
+//! The [`Report`] sink.
+
 use core::{fmt, hash::Hash};
 
 use super::Sink;

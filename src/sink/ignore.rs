@@ -1,3 +1,5 @@
+//! The [`Ignore`] sink.
+
 use core::marker::PhantomData;
 
 use super::Sink;

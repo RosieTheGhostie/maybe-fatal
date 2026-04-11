@@ -1,3 +1,5 @@
+//! The [`Filter`] sink and its utilities.
+
 use super::Sink;
 use crate::{ClassifiedDiagnostic, DiagnosticSeverity, code};
 

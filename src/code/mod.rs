@@ -1,3 +1,7 @@
+//! Diagnostic codes.
+//!
+//! Provides the [`DiagnosticCode`] type for identifiying [`Diagnostic`](crate::Diagnostic)s.
+
 pub use discriminant::{DefaultDiscriminant, Discriminant};
 
 mod discriminant;

@@ -1,3 +1,5 @@
+//! The [`Collect`] sink.
+
 use super::Sink;
 use crate::{ClassifiedDiagnostic, code};
 
