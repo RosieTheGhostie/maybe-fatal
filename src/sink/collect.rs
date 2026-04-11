@@ -5,7 +5,7 @@ use crate::{ClassifiedDiagnostic, code};
 ///
 /// The diagnostics can be inspected through [`Self::diagnostics`] and retrieved through
 /// [`Self::take_diagnostics`].
-#[derive(Clone, Debug, Default, Eq, Hash, PartialEq)]
+#[derive(Default)]
 pub struct Collect<S, D = code::DefaultDiscriminant> {
     diagnostics: Vec<ClassifiedDiagnostic<S, D>>,
 }

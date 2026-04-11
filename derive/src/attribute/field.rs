@@ -1,6 +1,8 @@
 use quote::{ToTokens, quote};
 use syn::{Attribute, Token, meta::ParseNestedMeta};
 
+use super::message::MessageMeta;
+
 #[derive(Clone, Default)]
 pub struct MaybeFatal {
     pub kind: Option<FieldKind>,
@@ -82,7 +84,7 @@ pub enum FieldKind {
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct LabelMeta {
-    pub message: Option<syn::Expr>,
+    pub message: Option<MessageMeta>,
     pub color: Option<syn::Expr>,
     pub order: Option<syn::Expr>,
 }
@@ -112,8 +114,9 @@ impl LabelMeta {
             return Err(meta.error("repeated `message` meta attribute"));
         }
 
-        let _: Token![=] = meta.input.parse()?;
-        self.message = Some(meta.input.parse()?);
+        let content;
+        let _ = syn::parenthesized!(content in meta.input);
+        self.message = Some(content.parse()?);
 
         Ok(())
     }

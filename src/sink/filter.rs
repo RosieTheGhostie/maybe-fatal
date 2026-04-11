@@ -57,9 +57,34 @@ impl<I, C, S, D> Filter<I, C, S, D> {
         }
     }
 
-    /// Adds a callback that will be invoked each time a diagnostic satisfies the predicate.
-    pub const fn with_add_callback(&mut self, callback: AddCallback<C, S, D>) -> &mut Self {
+    /// Sets the callback that will be invoked each time a diagnostic satisfies the predicate.
+    ///
+    /// Unlike [`with_add_callback`], this borrows `self`, so it cannot be used as the last builder
+    /// method in a chain; however, it can be called by itself without reassigning `self`'s owner.
+    ///
+    /// # See Also
+    ///
+    /// - [`with_add_callback`]
+    ///
+    /// [`with_add_callback`]: Self::with_add_callback
+    pub const fn set_add_callback(&mut self, callback: AddCallback<C, S, D>) -> &mut Self {
         self.add_callback = callback;
+        self
+    }
+
+    /// Sets the callback that will be invoked each time a diagnostic satisfies the predicate.
+    ///
+    /// Unlike [`set_add_callback`], this consumes `self`, so it can be used as the last builder
+    /// method in a chain; however, it cannot be called by itself without reassigning `self`'s
+    /// owner.
+    ///
+    /// # See Also
+    ///
+    /// - [`set_add_callback`]
+    ///
+    /// [`set_add_callback`]: Self::set_add_callback
+    pub const fn with_add_callback(mut self, callback: AddCallback<C, S, D>) -> Self {
+        self.set_add_callback(callback);
         self
     }
 }

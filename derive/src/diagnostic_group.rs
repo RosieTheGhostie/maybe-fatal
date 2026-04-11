@@ -31,11 +31,36 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
     let discriminant_type = discriminant_type
         .unwrap_or_else(|| syn::parse_quote!(::maybe_fatal::code::DefaultDiscriminant));
 
-    let syn::DataEnum { .. } = utils::try_into_data_enum(
+    let syn::DataEnum { variants, .. } = utils::try_into_data_enum(
         input.data,
         || "cannot derive `DiagnosticGroup` for `struct`s",
         || "cannot derive `DiagnosticGroup` for `union`s",
     )?;
+
+    let mut message_match_arms = TokenStream::new();
+    for syn::Variant {
+        attrs: variant_attrs,
+        ident: variant_name,
+        fields,
+        ..
+    } in &variants
+    {
+        let attribute::variant::MaybeFatal {
+            message: Some(message),
+            ..
+        } = attribute::variant::MaybeFatal::parse_from_attrs(variant_attrs)?
+        else {
+            return Err(syn::Error::new_spanned(
+                variant_name,
+                "missing `message` meta attribute",
+            ));
+        };
+
+        let members = fields.members();
+        message_match_arms.extend(quote! {
+            Self::#variant_name { #(#members),* } => Box::new(|| #message),
+        });
+    }
 
     let name = &input.ident;
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
@@ -45,6 +70,13 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
             for #name #ty_generics
         #where_clause
         {
+            fn message(
+                &self,
+            ) -> ::std::boxed::Box<dyn ::core::ops::FnOnce() -> ::std::string::String> {
+                #![allow(unused)]
+                match self { #message_match_arms }
+            }
+
             fn diagnostic_code(&self) -> ::maybe_fatal::code::DiagnosticCode<#discriminant_type> {
                 unsafe {
                     ::maybe_fatal::code::DiagnosticCode::<#discriminant_type>::new_unchecked(

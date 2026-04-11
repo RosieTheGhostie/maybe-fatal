@@ -37,7 +37,8 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
         || "cannot use derive macro `DiagnosticInfoWrapper` on `union`s",
     )?;
 
-    let mut diagnostic_group_match_arms = TokenStream::new();
+    let mut diagnostic_group_message_match_arms = TokenStream::new();
+    let mut diagnostic_group_code_match_arms = TokenStream::new();
     let mut partial_diagnose_match_arms = TokenStream::new();
     let mut from_impls = TokenStream::new();
     for syn::Variant { ident, fields, .. } in variants {
@@ -46,7 +47,10 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
             return Err(syn::Error::new(ident.span(), "expected non-unit variant"));
         };
 
-        diagnostic_group_match_arms.extend(quote! {
+        diagnostic_group_message_match_arms.extend(quote! {
+            Self::#ident(info) => <_ as ::maybe_fatal::traits::DiagnosticGroup<#discriminant_type>>::message(info),
+        });
+        diagnostic_group_code_match_arms.extend(quote! {
             Self::#ident(info) => <_ as ::maybe_fatal::traits::DiagnosticGroup<#discriminant_type>>::diagnostic_code(info),
         });
         partial_diagnose_match_arms.extend(quote! {
@@ -68,8 +72,14 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
             for #name #ty_generics
         #where_clause
         {
+            fn message(
+                &self,
+            ) -> ::std::boxed::Box<dyn ::core::ops::FnOnce() -> ::std::string::String> {
+                match self { #diagnostic_group_message_match_arms }
+            }
+
             fn diagnostic_code(&self) -> ::maybe_fatal::code::DiagnosticCode<#discriminant_type> {
-                match self { #diagnostic_group_match_arms }
+                match self { #diagnostic_group_code_match_arms }
             }
         }
 
@@ -82,6 +92,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
                 diagnostic: ::maybe_fatal::Diagnostic<#span_type, #discriminant_type>,
                 colors: &::maybe_fatal::ColorPalette,
             ) -> ::maybe_fatal::Diagnostic<#span_type, #discriminant_type> {
+                #![allow(unused)]
                 match self { #partial_diagnose_match_arms }
             }
         }

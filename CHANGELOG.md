@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 'minimal-tao' example program.
+- 'tao' example program.
+- `message` method for `DiagnosticGroup` trait.
+- `into_diagnostic` method for `DiagnosticGroupExt` trait.
+- Blanket implementation of `Diagnose<S, D>` for `(S, T)` where `T` implements `DiagnosticGroup<D>`
+  and `PartialDiagnose<S, D>`.
+- Builder API for `sink::Report`.
+  - `from_sources` constructor method.
+  - `set_config` method.
+  - `with_config` method.
+- Ability to specify diagnostic messages, notes, and help messages through derive API.
+
+### Changed
+
+- Builder API for `sink::Filter`.
+  - Rename `with_add_callback` method to `set_add_callback`.
+  - Add new `with_add_callback` method that consumes `self`.
+- Make `label` meta attribute of `maybe_fatal` helper use list syntax in order to support format
+  strings.
+
+### Removed
+
+- `DiagnosticMessageResolver` trait in favor of `DiagnosticGroup::message` method.
+- `config` parameter of `sink::Report::new` in favor of new builder API.
+
+### Fixed
+
+- Outdated version in repository-level 'README.md'.
+
 ## [0.1.0-beta.3] - 2026-04-10
 
 ### Added

@@ -25,7 +25,7 @@ mod severity;
 use core::borrow::Borrow;
 
 use code::DiagnosticCode;
-use traits::{DiagnosticGroup, DiagnosticMessageResolver};
+use traits::DiagnosticGroup;
 
 /// A contextualized message meant to assist the user in diagnosing and resolving issues.
 ///
@@ -35,7 +35,6 @@ use traits::{DiagnosticGroup, DiagnosticMessageResolver};
 /// Diagnostics are neutral by default; that is, they don't have an assigned
 /// [severity](DiagnosticSeverity). To assign a severity, use the [`classify`](Self::classify)
 /// method.
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct Diagnostic<S, D = code::DefaultDiscriminant> {
     /// The code identifying this kind of diagnostic.
     ///
@@ -45,6 +44,9 @@ pub struct Diagnostic<S, D = code::DefaultDiscriminant> {
 
     /// The span this diagnostic refers to.
     pub span: S,
+
+    /// A function that dynamically builds the diagnostic message.
+    message: Box<dyn FnOnce() -> String>,
 
     /// Any contextual information that may accompany the message.
     pub context_info: Vec<Context<S>>,
@@ -56,9 +58,11 @@ impl<S, D> Diagnostic<S, D> {
     where
         T: DiagnosticGroup<D> + ?Sized,
     {
+        let group_member = group_member.borrow();
         Self {
-            code: group_member.borrow().diagnostic_code(),
+            code: group_member.diagnostic_code(),
             span,
+            message: group_member.message(),
             context_info: Vec::new(),
         }
     }
@@ -103,7 +107,7 @@ impl<S, D> Diagnostic<S, D> {
     /// Reports this diagnostic using the given severity and configuration.
     ///
     /// See the [`ariadne`] documentation for more details.
-    pub fn report_with<Resolver, C>(
+    pub fn report_with<C>(
         self,
         severity: DiagnosticSeverity,
         config: Config,
@@ -112,17 +116,12 @@ impl<S, D> Diagnostic<S, D> {
     where
         S: ariadne::Span,
         D: code::Discriminant,
-        Resolver: DiagnosticMessageResolver<D>,
         C: ariadne::Cache<S::SourceId>,
     {
-        let message = Resolver::message(&self.code);
         let mut builder = ariadne::Report::build(severity.into(), self.span)
             .with_config(config)
-            .with_code(self.code);
-
-        if let Some(message) = message {
-            builder = builder.with_message(message);
-        }
+            .with_code(self.code)
+            .with_message((self.message)());
 
         for context in self.context_info {
             context.add_to_report_builder(&mut builder);

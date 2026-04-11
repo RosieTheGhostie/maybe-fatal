@@ -35,3 +35,11 @@ derive = ["dep:maybe-fatal-derive"]
 
 default = []
 full = ["derive"]
+
+[[example]]
+name = "minimal-tao"
+required-features = ["derive"]
+
+[[example]]
+name = "tao"
+required-features = ["derive"]

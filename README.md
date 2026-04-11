@@ -15,10 +15,10 @@ manually add the following lines to your 'Cargo.toml':
 
 ```toml
 [dependencies]
-maybe-fatal = { version = "0.1.0-beta.2", features = ["derive"] }
+maybe-fatal = { version = "0.1.0-beta.3", features = ["derive"] }
 
 # If you prefer to add the 'maybe-fatal-derive' crate directly, you can also do this:
-# maybe-fatal = "0.1.0-beta.2"
+# maybe-fatal = "0.1.0-beta.3"
 # maybe-fatal-derive = "0.1.0"
 ```
 
@@ -29,8 +29,7 @@ maybe-fatal = { version = "0.1.0-beta.2", features = ["derive"] }
 
 ## Examples
 
-> [!WARNING]
-> TODO
+See the [examples](examples/README.md) directory for some examples of how to use this crate.
 
 # Relationship to Other Crates
 

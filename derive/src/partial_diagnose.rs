@@ -31,7 +31,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
 
     let method_body = utils::process_data(
         data,
-        |data| parse_struct(quote! { self. }, &data.fields),
+        |data| parse_struct(quote! { self. }, &attrs, &data.fields),
         parse_enum,
         utils::deny_data!("cannot derive `PartialDiagnose` for `union`s"),
     )?;
@@ -58,6 +58,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
                 mut diagnostic: ::maybe_fatal::Diagnostic<#span_type, #discriminant_type>,
                 colors: &::maybe_fatal::ColorPalette,
             ) -> ::maybe_fatal::Diagnostic<#span_type, #discriminant_type> {
+                #![allow(unused)]
                 #method_body
 
                 diagnostic
@@ -66,8 +67,30 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
     })
 }
 
-fn parse_struct(self_dot: TokenStream, fields: &syn::Fields) -> syn::Result<TokenStream> {
+fn parse_struct(
+    self_dot: TokenStream,
+    attrs: &[syn::Attribute],
+    fields: &syn::Fields,
+) -> syn::Result<TokenStream> {
     let mut body = TokenStream::new();
+
+    let helper_info = attribute::variant::MaybeFatal::parse_from_attrs(attrs)?;
+    if let Some(label_meta) = helper_info.label {
+        body.extend(quote! {
+            diagnostic.label(::ariadne::Label::new(
+                <_ as ::core::clone::Clone>::clone(&diagnostic.span)
+            ) #label_meta);
+        });
+    }
+
+    for note in helper_info.notes {
+        body.extend(quote! { diagnostic.note(#note); });
+    }
+
+    for help in helper_info.help_messages {
+        body.extend(quote! { diagnostic.help(#help); });
+    }
+
     for (field, member) in zip(fields.iter(), fields.members()) {
         let field_info = attribute::field::MaybeFatal::parse_from_attrs(&field.attrs)?;
         if let Some(label_meta) = field_info.label {
@@ -84,7 +107,7 @@ fn parse_enum(data: syn::DataEnum) -> syn::Result<TokenStream> {
     let mut match_body = TokenStream::new();
     for variant in data.variants {
         let ident = variant.ident;
-        let arm_body = parse_struct(TokenStream::new(), &variant.fields)?;
+        let arm_body = parse_struct(TokenStream::new(), &variant.attrs, &variant.fields)?;
         let members = variant.fields.members();
         match_body.extend(quote! { Self::#ident { #(#members),* } => { #arm_body } })
     }

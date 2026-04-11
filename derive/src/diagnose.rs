@@ -83,8 +83,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
                 self,
                 colors: &::maybe_fatal::ColorPalette,
             ) -> ::maybe_fatal::Diagnostic<#span_type> {
-                let diagnostic = self.#info_member.make_diagnostic(self.#span_member);
-                self.#info_member.partial_diagnose(diagnostic, colors)
+                self.#info_member.into_diagnostic(self.#span_member, colors)
             }
         }
     })

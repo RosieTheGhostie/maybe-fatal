@@ -19,6 +19,18 @@ pub trait Diagnose<S, D = code::DefaultDiscriminant> {
     fn diagnose(self, colors: &ColorPalette) -> Diagnostic<S, D>;
 }
 
+impl<T, S, D> Diagnose<S, D> for (S, T)
+where
+    T: DiagnosticGroup<D> + PartialDiagnose<S, D> + Sized,
+{
+    fn diagnose(self, colors: &ColorPalette) -> Diagnostic<S, D> {
+        let (span, group_member) = self;
+        let diagnostic = group_member.make_diagnostic(span);
+
+        group_member.partial_diagnose(diagnostic, colors)
+    }
+}
+
 /// A trait for things that can finish an existing [diagnostic](Diagnostic), but not start one.
 ///
 /// This is primarily for error variants that don't know their own span and/or error code.
@@ -38,6 +50,8 @@ pub trait PartialDiagnose<S, D = code::DefaultDiscriminant> {
 ///
 /// [`thiserror::Error`]: https://docs.rs/thiserror/latest/thiserror/derive.Error.html
 pub trait DiagnosticGroup<D = code::DefaultDiscriminant> {
+    fn message(&self) -> Box<dyn FnOnce() -> String>;
+
     fn diagnostic_code(&self) -> DiagnosticCode<D>;
 }
 
@@ -46,14 +60,14 @@ pub trait DiagnosticGroupExt<D = code::DefaultDiscriminant>: DiagnosticGroup<D> 
     fn make_diagnostic<S>(&self, span: S) -> Diagnostic<S, D> {
         Diagnostic::new::<Self>(self, span)
     }
+
+    fn into_diagnostic<S>(self, span: S, colors: &ColorPalette) -> Diagnostic<S, D>
+    where
+        Self: PartialDiagnose<S, D> + Sized,
+    {
+        (span, self).diagnose(colors)
+    }
 }
 
 #[sealed]
 impl<T, D> DiagnosticGroupExt<D> for T where T: DiagnosticGroup<D> {}
-
-/// A trait for things that can resolve diagnostic messages from their codes.
-///
-/// Implementing types will typically be zero-sized, as they have no real state to track.
-pub trait DiagnosticMessageResolver<D = code::DefaultDiscriminant> {
-    fn message(code: &DiagnosticCode<D>) -> Option<&'static str>;
-}
