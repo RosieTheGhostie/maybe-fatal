@@ -7,7 +7,7 @@
 //!    nice for error recovery.
 //! 2. Creating a diagnostic does not imply failure.
 //! 3. Multiple diagnostics can result from one subroutine without resorting to ugly return types
-//!    like [`Result<(T, Vec<ClassifiedDiagnostic<S, D>), Vec<ClassifiedDiagnostic<S, D>>`].
+//!    like [`Result<(T, Vec<ClassifiedDiagnostic<S, D>>), Vec<ClassifiedDiagnostic<S, D>>>`].
 //! 4. The code that constructs the diagnostic doesn't have to know how it is being handled.
 //! 5. Types that use [`Sink`]s can typically use them generically, so consumers can employ
 //!    dependency injection.

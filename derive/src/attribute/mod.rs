@@ -1,4 +1,3 @@
-pub mod docs;
 pub mod field;
 pub mod item;
 pub mod message;

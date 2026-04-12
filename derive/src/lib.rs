@@ -1,9 +1,10 @@
-#![doc = include_str!("../README.md")]
+//! Code generation for the [maybe-fatal] crate.
+//!
+//! See [maybe-fatal]'s documentation for examples of how to use this crate.
+//!
+//! [maybe-fatal]: https://docs.rs/maybe-fatal/latest/maybe_fatal/
 
 extern crate proc_macro;
-
-#[cfg(docsrs)]
-pub use attribute::docs as additional_attributes;
 
 mod attribute;
 mod diagnose;

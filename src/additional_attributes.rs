@@ -16,8 +16,8 @@
 //!
 //! - `group(prefix = "...", discriminant_type = ...)`
 //!
-//!   Configures group-wide information for the [`DiagnosticGroup`](crate::DiagnosticGroup) and
-//!   [`DiagnosticInfoWrapper`](crate::DiagnosticInfoWrapper) macros.
+//!   Configures group-wide information for the [`DiagnosticGroup`] and [`DiagnosticInfoWrapper`]
+//!   macros.
 //!
 //!   `prefix` is required to be a 3-byte UTF-8 string and must be specified. `discriminant_type` is
 //!   optional and defaults to [`code::DefaultDiscriminant`] if not specified.
@@ -28,13 +28,13 @@
 //!
 //! - `info`
 //!
-//!   Marks this field as containing the information for the [`Diagnose`](crate::Diagnose) macro.
+//!   Marks this field as containing the information for the [`Diagnose`] macro.
 //!
 //!   There can only be one field with this attribute.
 //!
 //! - `span`
 //!
-//!   Marks this field as the span for the [`Diagnose`](crate::Diagnose) macro.
+//!   Marks this field as the span for the [`Diagnose`] macro.
 //!
 //!   There can only be one field with this attribute.
 //!
@@ -86,6 +86,10 @@
 //!
 //!   The value is interpreted as an expression, and that expression should evaluate to an [`i32`].
 //!
-//! [`code::DefaultDiscriminant`]: https://docs.rs/maybe-fatal/latest/maybe_fatal/code/type.DefaultDiscriminant.html
-//! [`Color`]: https://docs.rs/yansi/latest/yansi/enum.Color.html
-//! [`ColorPalette`]: https://docs.rs/maybe-fatal/latest/maybe_fatal/struct.ColorPalette.html
+//! [`code::DefaultDiscriminant`]: crate::code::DefaultDiscriminant
+//! [`Color`]: ariadne::Color
+//! [`ColorPalette`]: crate::ColorPalette
+//! [`Diagnose`]: https://docs.rs/maybe-fatal-derive/latest/maybe_fatal_derive/derive.Diagnose.html
+//! [`DiagnosticGroup`]: https://docs.rs/maybe-fatal-derive/latest/maybe_fatal_derive/derive.DiagnosticGroup.html
+//! [`DiagnosticInfoWrapper`]: https://docs.rs/maybe-fatal-derive/latest/maybe_fatal_derive/derive.DiagnosticInfoWrapper.html
+//! [`PartialDiagnose`]: https://docs.rs/maybe-fatal-derive/latest/maybe_fatal_derive/derive.PartialDiagnose.html
