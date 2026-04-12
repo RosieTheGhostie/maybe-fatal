@@ -2,7 +2,7 @@
 name = "maybe-fatal-derive"
 description = "Code generation for the maybe-fatal crate"
 authors.workspace = true
-version = "0.1.0-beta.3"
+version = "0.1.0-beta.4"
 edition.workspace = true
 license.workspace = true
 categories.workspace = true

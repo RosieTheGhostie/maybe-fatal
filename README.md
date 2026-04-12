@@ -8,29 +8,13 @@ Potentially fatal diagnostics and diagnostic handling for compilers.
 
 # Usage
 
-## Adding Dependency to 'Cargo.toml'
-
-'maybe-fatal' can be added as a dependency in a number of ways, but the recommended way is to
-manually add the following lines to your 'Cargo.toml':
-
-```toml
-[dependencies]
-maybe-fatal = { version = "0.1.0-beta.3", features = ["derive"] }
-
-# If you prefer to add the 'maybe-fatal-derive' crate directly, you can also do this:
-# maybe-fatal = "0.1.0-beta.3"
-# maybe-fatal-derive = "0.1.0-beta.3"
+```bash
+cargo add maybe-fatal@0.1.0-beta.4
 ```
-
-> **NOTE**
->
-> The "derive" feature is not explicitly required (hence why it is not enabled by default), but it
-> is highly recommended to use it. It removes a lot of the tedium from implementing this crate's
-> traits and streamlines the process of modifying the types that implement those traits.
 
 ## Examples
 
-See the [examples](examples/README.md) directory for some examples of how to use this crate.
+See the [examples](./examples) directory for some examples of how to use this crate.
 
 # Relationship to Other Crates
 
