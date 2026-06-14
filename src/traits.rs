@@ -12,10 +12,14 @@ use crate::{ColorPalette, Diagnostic, DiagnosticCode, code};
 
 /// Used to indicate that the implementing type does not imply a
 /// [diagnostic severity](crate::DiagnosticSeverity) of [`Error`](crate::DiagnosticSeverity::Error).
-///
-/// This is not used directly by the [`maybe_fatal`](crate) crate; instead, it is intended to be a
-/// utility for downstream crates creating [`Diagnostic`]s.
 pub trait Lenient {}
+
+impl<S, T> Lenient for (S, T)
+where
+    S: ariadne::Span,
+    T: Lenient,
+{
+}
 
 /// A trait for things that can be transformed into a [`Diagnostic`] that is ready to report.
 ///
@@ -70,9 +74,8 @@ pub trait PartialDiagnose<S, D = code::DefaultDiscriminant> {
 ///
 /// [`thiserror::Error`]: https://docs.rs/thiserror/latest/thiserror/derive.Error.html
 pub trait DiagnosticGroup<D = code::DefaultDiscriminant> {
-    /// Constructs a function that, when called, builds the diagnostic message corresponding to
-    /// `self`.
-    fn message(&self) -> Box<dyn FnOnce() -> String>;
+    /// Builds the diagnostic message corresponding to `self`.
+    fn message(&self) -> String;
 
     /// Gets the [`DiagnosticCode`] corresponding to `self`.
     fn diagnostic_code(&self) -> DiagnosticCode<D>;

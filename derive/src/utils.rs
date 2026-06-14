@@ -1,5 +1,25 @@
 use std::fmt::Display;
 
+pub fn adjust_where_clause(
+    where_clause: Option<&syn::WhereClause>,
+    span_type: &syn::Type,
+) -> syn::WhereClause {
+    match where_clause {
+        Some(syn::WhereClause {
+            where_token,
+            predicates,
+        }) => {
+            let predicates = predicates.iter();
+            syn::parse_quote! {
+                #where_token
+                    #(#predicates),*
+                    #span_type: ::core::clone::Clone + ::ariadne::Span
+            }
+        }
+        None => syn::parse_quote! { where #span_type: ::core::clone::Clone + ::ariadne::Span },
+    }
+}
+
 macro_rules! deny_data {
     ($error:expr) => {
         |data| <_ as $crate::utils::_SynDataVariant>::deny(&data, $error)

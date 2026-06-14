@@ -58,7 +58,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
 
         let members = fields.members();
         message_match_arms.extend(quote! {
-            Self::#variant_name { #(#members),* } => Box::new(|| #message),
+            Self::#variant_name { #(#members),* } => #message,
         });
     }
 
@@ -70,9 +70,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
             for #name #ty_generics
         #where_clause
         {
-            fn message(
-                &self,
-            ) -> ::std::boxed::Box<dyn ::core::ops::FnOnce() -> ::std::string::String> {
+            fn message(&self) -> ::std::string::String {
                 #![allow(unused)]
                 match self { #message_match_arms }
             }

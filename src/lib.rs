@@ -75,8 +75,8 @@ pub struct Diagnostic<S, D = code::DefaultDiscriminant> {
     /// The span this diagnostic refers to.
     pub span: S,
 
-    /// A function that dynamically builds the diagnostic message.
-    message: Box<dyn FnOnce() -> String>,
+    /// The diagnostic message.
+    pub message: Box<str>,
 
     /// Any contextual information that may accompany the message.
     pub context_info: Vec<Context<S>>,
@@ -92,7 +92,7 @@ impl<S, D> Diagnostic<S, D> {
         Self {
             code: group_member.diagnostic_code(),
             span,
-            message: group_member.message(),
+            message: group_member.message().into_boxed_str(),
             context_info: Vec::new(),
         }
     }
@@ -151,7 +151,7 @@ impl<S, D> Diagnostic<S, D> {
         let mut builder = ariadne::Report::build(severity.into(), self.span)
             .with_config(config)
             .with_code(self.code)
-            .with_message((self.message)());
+            .with_message(self.message);
 
         for context in self.context_info {
             context.add_to_report_builder(&mut builder);

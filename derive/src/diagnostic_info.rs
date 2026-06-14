@@ -20,16 +20,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
 
     let name = &input.ident;
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
-    let extended_where_clause: syn::WhereClause = match where_clause {
-        Some(syn::WhereClause {
-            where_token,
-            predicates,
-        }) => {
-            let predicates = predicates.iter();
-            syn::parse_quote! { #where_token #(#predicates),* #span_type: ::ariadne::Span }
-        }
-        None => syn::parse_quote! { where #span_type: ::ariadne::Span },
-    };
+    let extended_where_clause = utils::adjust_where_clause(where_clause, &span_type);
 
     let syn::DataEnum { variants, .. } = utils::try_into_data_enum(
         input.data,
@@ -72,9 +63,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
             for #name #ty_generics
         #where_clause
         {
-            fn message(
-                &self,
-            ) -> ::std::boxed::Box<dyn ::core::ops::FnOnce() -> ::std::string::String> {
+            fn message(&self) -> ::std::string::String {
                 match self { #diagnostic_group_message_match_arms }
             }
 

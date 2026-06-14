@@ -37,16 +37,7 @@ pub fn parse(input: syn::DeriveInput) -> syn::Result<TokenStream> {
     )?;
 
     let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
-    let where_clause: syn::WhereClause = match where_clause {
-        Some(syn::WhereClause {
-            where_token,
-            predicates,
-        }) => {
-            let predicates = predicates.iter();
-            syn::parse_quote! { #where_token #(#predicates),* #span_type: ::ariadne::Span }
-        }
-        None => syn::parse_quote! { where #span_type: ::ariadne::Span },
-    };
+    let where_clause = utils::adjust_where_clause(where_clause, &span_type);
 
     Ok(quote! {
         impl #impl_generics ::maybe_fatal::traits::PartialDiagnose<#span_type, #discriminant_type>

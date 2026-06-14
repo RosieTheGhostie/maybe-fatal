@@ -15,17 +15,22 @@
 pub mod filter;
 
 pub use collect::Collect;
+pub use colored::{Colored, HasColorPalette};
 pub use filter::Filter;
 pub use ignore::Ignore;
 pub use report::Report;
 
 mod collect;
+mod colored;
 mod ignore;
 mod report;
 
 use sealed::sealed;
 
-use crate::{ClassifiedDiagnostic, Diagnostic, DiagnosticSeverity, code};
+use crate::{
+    ClassifiedDiagnostic, ColorPalette, Diagnostic, DiagnosticSeverity, code,
+    traits::{Diagnose, Lenient},
+};
 
 /// A trait for types that can act as sinks for [`ClassifiedDiagnostic`]s.
 ///
@@ -64,6 +69,44 @@ pub trait SinkExt<S, D = code::DefaultDiscriminant>: Sink<S, D> {
     /// Adds the given diagnostic to the sink as advice.
     fn add_advice(&mut self, diagnostic: Diagnostic<S, D>) {
         self.add(diagnostic.classify(DiagnosticSeverity::Advice));
+    }
+
+    /// Diagnoses the argument as an error and adds it to the sink.
+    fn diagnose_as_error(&mut self, diagnosable: impl Diagnose<S, D>)
+    where
+        Self: HasColorPalette,
+    {
+        self.add_error(diagnosable.diagnose(self.colors()));
+    }
+
+    /// Diagnoses the argument as a warning and adds it to the sink.
+    fn diagnose_as_warning(&mut self, diagnosable: impl Diagnose<S, D> + Lenient)
+    where
+        Self: HasColorPalette,
+    {
+        self.add_warning(diagnosable.diagnose(self.colors()));
+    }
+
+    /// Diagnoses the argument as advice and adds it to the sink.
+    fn diagnose_as_advice(&mut self, diagnosable: impl Diagnose<S, D> + Lenient)
+    where
+        Self: HasColorPalette,
+    {
+        self.add_advice(diagnosable.diagnose(self.colors()));
+    }
+
+    fn colored(self, colors: ColorPalette) -> Colored<Self>
+    where
+        Self: Sized,
+    {
+        Colored::new(self, colors)
+    }
+
+    fn colored_with_default(self) -> Colored<Self>
+    where
+        Self: Sized,
+    {
+        Colored::new_with_default(self)
     }
 
     /// Filters diagnostics provided to this sink with the given predicate.
