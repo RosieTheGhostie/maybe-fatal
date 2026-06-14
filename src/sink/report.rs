@@ -85,6 +85,6 @@ where
     C: ariadne::Cache<S::SourceId>,
 {
     fn add(&mut self, diagnostic: ClassifiedDiagnostic<S, D>) {
-        let _ = diagnostic.report(self.config.clone(), &mut self.cache);
+        let _ = diagnostic.report(self.config, &mut self.cache);
     }
 }

@@ -22,7 +22,7 @@ impl<S, D> Collect<S, D> {
 
     /// Immutably borrows all the diagnostics that have been collected thus far.
     pub const fn diagnostics(&self) -> &[ClassifiedDiagnostic<S, D>] {
-        &self.diagnostics.as_slice()
+        self.diagnostics.as_slice()
     }
 
     /// Yields ownership of all the diagnostics that have been collected.
