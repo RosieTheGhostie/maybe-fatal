@@ -79,7 +79,7 @@ impl DiagnosticSeverity {
     }
 }
 
-impl<'a> From<DiagnosticSeverity> for ariadne::ReportKind<'a> {
+impl From<DiagnosticSeverity> for ariadne::ReportKind {
     fn from(severity: DiagnosticSeverity) -> Self {
         match severity {
             DiagnosticSeverity::Advice => Self::Advice,
@@ -89,12 +89,12 @@ impl<'a> From<DiagnosticSeverity> for ariadne::ReportKind<'a> {
     }
 }
 
-impl<'a> TryFrom<ariadne::ReportKind<'a>> for DiagnosticSeverity {
+impl TryFrom<ariadne::ReportKind> for DiagnosticSeverity {
     type Error = &'static str;
 
     fn try_from(
-        report_kind: ariadne::ReportKind<'a>,
-    ) -> Result<Self, <Self as TryFrom<ariadne::ReportKind<'a>>>::Error> {
+        report_kind: ariadne::ReportKind,
+    ) -> Result<Self, <Self as TryFrom<ariadne::ReportKind>>::Error> {
         match report_kind {
             ariadne::ReportKind::Advice => Ok(Self::Advice),
             ariadne::ReportKind::Warning => Ok(Self::Warning),

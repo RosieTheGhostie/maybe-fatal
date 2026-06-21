@@ -40,7 +40,7 @@ pub mod prelude;
 pub mod sink;
 pub mod traits;
 
-pub use ariadne::{Config, Label};
+pub use ariadne::{self, Config, Label};
 
 pub use classified::ClassifiedDiagnostic;
 pub use color_palette::ColorPalette;
@@ -148,10 +148,25 @@ impl<S, D> Diagnostic<S, D> {
         D: code::Discriminant,
         C: ariadne::Cache<S::SourceId>,
     {
-        let mut builder = ariadne::Report::build(severity.into(), self.span)
+        use yansi::{Condition, Style};
+
+        static BOLD: Style = Style::new().bold().whenever(Condition::STDERR_IS_TTY);
+        static CODE: Style = Style::new()
+            .italic()
+            .dim()
+            .whenever(Condition::STDERR_IS_TTY);
+
+        let mut builder = ariadne::Report::build(ariadne::ReportKind::from(severity), self.span)
             .with_config(config)
-            .with_code(self.code)
-            .with_message(self.message);
+            .with_message(format!(
+                "{}{}{} {}[{}]{}",
+                BOLD.prefix(),
+                self.message,
+                BOLD.suffix(),
+                CODE.prefix(),
+                self.code,
+                CODE.suffix(),
+            ));
 
         for context in self.context_info {
             context.add_to_report_builder(&mut builder);

@@ -38,7 +38,7 @@ impl<C> Report<C> {
     /// - [`with_config`]
     ///
     /// [`with_config`]: Self::with_config
-    pub const fn set_config(&mut self, config: ariadne::Config) -> &mut Self {
+    pub fn set_config(&mut self, config: ariadne::Config) -> &mut Self {
         self.config = config;
         self
     }
@@ -53,7 +53,7 @@ impl<C> Report<C> {
     /// - [`set_config`]
     ///
     /// [`set_config`]: Self::with_config
-    pub const fn with_config(mut self, config: ariadne::Config) -> Self {
+    pub fn with_config(mut self, config: ariadne::Config) -> Self {
         self.set_config(config);
         self
     }
@@ -85,6 +85,6 @@ where
     C: ariadne::Cache<S::SourceId>,
 {
     fn add(&mut self, diagnostic: ClassifiedDiagnostic<S, D>) {
-        let _ = diagnostic.report(self.config, &mut self.cache);
+        let _ = diagnostic.report(self.config.clone(), &mut self.cache);
     }
 }

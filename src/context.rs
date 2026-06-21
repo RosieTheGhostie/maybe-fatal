@@ -46,9 +46,10 @@ impl<S> Context<S> {
     }
 
     /// Adds this context to a [`ReportBuilder`].
-    pub(super) fn add_to_report_builder(self, builder: &mut ReportBuilder<S>)
+    pub(super) fn add_to_report_builder<K>(self, builder: &mut ReportBuilder<S, K>)
     where
         S: ariadne::Span,
+        K: ariadne::ReportStyle,
     {
         match self {
             Self::Label(label) => builder.add_label(label),

@@ -26,9 +26,10 @@ homepage.workspace = true
 readme = "README.md"
 
 [dependencies]
-ariadne = "0.6"
+ariadne = { version = "0.7.0", git = "https://codeberg.org/zesterer/ariadne" }
 sealed = "0.6"
 maybe-fatal-derive = { version = "0.1.0-beta.4", path = "derive", optional = true }
+yansi = { version = "1.0.1", features = ["detect-tty", "is-terminal"] }
 
 [dev-dependencies]
 maybe-fatal-derive = { version = "0.1.0-beta.4", path = "derive" }
